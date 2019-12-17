@@ -2,6 +2,7 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.1.
 Front End for a bill-splitting app like Splitwise using Angular 8. Includes Authentication and Authorization using JWT tokens.
+Working demo on Azure: https://splitwiseweb20191211032306.azurewebsites.net/
 
 ## Development server
 
