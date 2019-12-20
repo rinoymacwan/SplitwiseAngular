@@ -9,9 +9,15 @@ export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
     public user: User;
+    baseURl: string;
+    local: string;
+    azure: string;
     constructor(private http: HttpClient) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
+        this.local =  'http://localhost:6800/api/';
+      this.azure = 'https://splitwiseweb20191211032306.azurewebsites.net/api/';
+        this.baseURl = this.local;
     }
 
     public get currentUserValue(): User {
@@ -22,7 +28,8 @@ export class AuthenticationService {
         this.user = new User();
         this.user.userName = username;
         this.user.password = password;
-        return this.http.post<any>('http://localhost:6700/api/Users/login', this.user)
+        // http://localhost:6700/
+        return this.http.post<any>(`${this.baseURl}Users/login`, this.user)
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
                 // add token

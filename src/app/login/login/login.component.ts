@@ -6,6 +6,7 @@ import { first } from 'rxjs/operators';
 import { User } from '../../shared/models/user';
 import { DataService } from '../../shared/services/data.service';
 import { AppComponent } from '../../app.component';
+import { SignalRService } from 'src/app/shared/services/signal-r.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
   msg: string;
   newUserCreated: boolean;
   // tslint:disable-next-line: max-line-length
-  constructor(public myapp: AppComponent, private authenticationService: AuthenticationService, private router: Router, private route: ActivatedRoute, private dataService: DataService) {
+  constructor(public myapp: AppComponent, private signalRService: SignalRService, private authenticationService: AuthenticationService, private router: Router, private route: ActivatedRoute, private dataService: DataService) {
     this.error = false;
     this.newUserCreated = false;
     if (this.authenticationService.currentUserValue) {
@@ -42,6 +43,7 @@ export class LoginComponent implements OnInit {
     .subscribe(
         data => {
           this.myapp.fetchData();
+          this.signalRService.StartService();
           this.router.navigate([this.returnUrl]);
         },
         error => {

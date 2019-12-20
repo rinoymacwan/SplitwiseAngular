@@ -77,7 +77,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     const owesT = this.payees.filter(k => k.payeeId === this.currentUser.id);
     for (const payee of owesT) {
-      const payer = this.payers.find(k => k.expenseId === payee.expenseId && k.payerId);
+      const payer = this.payers.find(k => k.expenseId === payee.expenseId);
       const expense = this.expenses.find(k => k.id === payee.expenseId);
       const existingPayment = this.owesPayments.find(k => k.from === payer.payerId && k.to === payee.payeeId);
       if (existingPayment !== undefined) {
@@ -90,20 +90,24 @@ export class DashboardComponent implements OnInit {
 
     const owedT = this.payers.filter(k => k.payerId === this.currentUser.id);
     for (const payer of owedT) {
+      // console.log("AAA");
       const payees = this.payees.filter(k => k.expenseId === payer.expenseId);
       for (const payee of payees) {
         const expense = this.expenses.find(k => k.id === payer.expenseId);
         const existingPayment = this.owedPayments.find(k => k.from === payer.payerId && k.to === payee.payeeId);
         if (existingPayment !== undefined) {
+          console.log("exists");
           // console.log("exists");
           existingPayment.amount += payee.payeeShare;
         } else {
+          console.log("add new");
           // tslint:disable-next-line: max-line-length
           this.owedPayments.push(new Payment(expense.id, expense.description, payer.payerId, payer.user.name, payee.payeeId, payee.user.name, payee.payeeShare, 0, expense.dateTime));
         }
       }
 
     }
+    console.log(this.owedPayments);
     this.owesPayments = this.owesPayments.filter(k => k.from !== k.to);
     this.owedPayments = this.owedPayments.filter(k => k.from !== k.to);
 

@@ -13,19 +13,25 @@ export class SignalRService {
   currentUser: User;
   public msgs: BehaviorSubject<string>;
   msg: string;
+  baseURl: string;
+  local: string;
+  azure: string;
   constructor(private messageService: MessageService, private authenticationService: AuthenticationService) {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
     // console.log('XXXXXXXXXXXXXXXXXXX');
     this.msgs = new BehaviorSubject('');
+    this.local =  'http://localhost:6800/';
+    this.azure = 'https://splitwiseweb20191211032306.azurewebsites.net/';
+    this.baseURl = this.local;
    }
 
    StartService() {
     this.connection = new signalR.HubConnectionBuilder()
     .configureLogging(signalR.LogLevel.Information)
-    .withUrl('http://localhost:6700/notify')
+    .withUrl(`${this.baseURl}notify`)
     .build();
-
+// http://localhost:6700/
     this.connection.start().then(k =>  {
       console.log('Connected!');
       this.connection.invoke('AddUser', this.currentUser.id);

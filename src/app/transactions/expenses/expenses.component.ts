@@ -151,7 +151,7 @@ export class ExpensesComponent implements OnInit {
         this.payee.payeeId = this.selectedFriend.id;
         this.payee.payeeShare = this.finalSelectedFriendShare;
         // console.log('I paid');
-
+        console.log(this.selectedFriend.id);
         const str = `${this.currentUser.name} added an expense '${this.expense.description}' with you.` ;
         this.listOfUsers.push(this.selectedFriend.id);
         this.signalRService.SendMessages(str, this.listOfUsers);
@@ -170,8 +170,8 @@ export class ExpensesComponent implements OnInit {
       // console.log('PAYER:');
       // console.log(JSON.stringify(this.payer));
       this.dataService.AddPayer(this.payer);
-      // console.log('PAYEE:');
-      // console.log(JSON.stringify(this.payee));
+      console.log('PAYEE:');
+      console.log(JSON.stringify(this.payee));
       this.dataService.AddPayee(this.payee);
       // tslint:disable-next-line: max-line-length
       this.activity.description = this.currentUser.name + ' added ' + this.expense.description + ' with ' + this.selectedFriend.name;
@@ -205,7 +205,7 @@ export class ExpensesComponent implements OnInit {
     this.activity.dateTime = this.expense.dateTime;
 
     this.dataService.addActivity(this.activity);
-    console.log(this.listOfUsers);
+    // console.log(this.listOfUsers);
 
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(['dashboard'], { state: { msg: 'Expense added.' } } );
@@ -213,12 +213,21 @@ export class ExpensesComponent implements OnInit {
     // this.router.navigate(['dashboard'], { state: { msg: 'Expense added.' } });
   }
   addUser(id: string) {
-    console.log(id);
+    // console.log(id);
     this.flag = true;
-    this.selectedFriend = this.friends.find(k => k.id === id);
+    this.selectedFriend = new User();
+    // this.selectedFriend = this.friends.filter(k => k.id == id).pop();
+    this.selectedFriend = this.friends.find(k => k.id == id);
+    // using find in selectedFriend doesnt update thte friend, just updates the id
+    // example, it uses all of ketulss info with rakas id
+    // when user selects a firend below the current on ein list, it doesnt update. above currently seelcted works
+
+    // same problem with filter but in reverse, ie once you select a friendm cant select above it
+    console.log(this.selectedFriend);
     // console.log(JSON.stringify(this.selectedFriend));
     this.paidBy = [];
     this.paidBy.push(this.selectedFriend);
+    // console.log(this.paidBy);
   }
   onCheck(checked: boolean, id: string) {
     // console.log(checked + '|' + id);

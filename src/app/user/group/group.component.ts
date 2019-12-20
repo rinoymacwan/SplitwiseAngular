@@ -109,12 +109,12 @@ export class GroupComponent implements OnInit {
       const x = this.members.find(k => k.id === id);
       this.members = this.members.filter(k => k !== x);
     }
-    console.log(JSON.stringify(this.members));
+    // console.log(JSON.stringify(this.members));
   }
 
   async onSubmit(form: NgForm) {
     console.log('Adding new group!');
-    console.log(this.group);
+    // console.log(this.group);
     await this.dataService.addGroup(this.group).then(
       k => {
         this.group = k;

@@ -6,7 +6,7 @@
     <div class="col-4" style="float: left;">
       <h4>Login</h4>
       <br>
-      <form class="form-horizontal" #loginForm="ngForm" class="myForm" (ngSubmit)="onLogin()" ngNativeValidate>
+      <form class="form-horizontal" #loginForm="ngForm" class="myForm" (ngSubmit)="onLogin(loginForm)" ngNativeValidate>
         <div class="row">
           <div class="col-md-4">
             <label for="email">
@@ -42,7 +42,7 @@
     <div class="col-6" style="float: right;">
         <h4>Register</h4>
         <br>
-      <form class="form-horizontal" #registerForm="ngForm" class="myForm" (ngSubmit)="onRegister()" ngNativeValidate>
+      <form class="form-horizontal" #registerForm="ngForm" class="myForm" (ngSubmit)="onRegister(registerForm)" ngNativeValidate>
         <div class="row">
           <div class="col-md-4">
             <label for="name">

@@ -16,8 +16,12 @@ import { GroupMemberMapping } from '../models/group-member-mapping';
 })
 export class DataService {
   baseURl: string;
+  local: string;
+  azure: string;
   constructor(private http: HttpClient) {
-    this.baseURl = 'http://localhost:6700/api/';
+    this.local =  'http://localhost:6800/api/';
+    this.azure = 'https://splitwiseweb20191211032306.azurewebsites.net/api/';
+    this.baseURl = this.local;
    }
 
   getActivities(UserId: string): Observable<Activity[]> {
